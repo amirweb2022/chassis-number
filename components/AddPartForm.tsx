@@ -49,6 +49,7 @@ export default function AddPartForm({ onAdd }: AddPartFormProps) {
       setTitle("");
       setChassisInput("");
       setIsOpen(false);
+      alert("Part added successfully!");
     } catch {
       setError("Failed to connect to server.");
     } finally {
