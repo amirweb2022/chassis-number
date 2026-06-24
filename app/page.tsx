@@ -43,7 +43,9 @@ export default function Home() {
   const handleAdd = (part: PartEntry) => {
     if (query.trim()) search(query);
   };
-
+  const handleUpdate = (updated: PartEntry) => {
+    setResults((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
+  };
   return (
     <main className="min-h-screen bg-zinc-50">
       {/* Header */}
@@ -82,7 +84,10 @@ export default function Home() {
         {isSearching && (
           <div className="flex flex-col gap-4">
             {[1, 2].map((i) => (
-              <div key={i} className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm animate-pulse">
+              <div
+                key={i}
+                className="bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm animate-pulse"
+              >
                 <div className="flex justify-between mb-4">
                   <div className="h-5 bg-zinc-100 rounded-lg w-32" />
                   <div className="h-5 bg-zinc-100 rounded-lg w-20" />
@@ -102,7 +107,17 @@ export default function Home() {
         {!query.trim() && (
           <div className="mt-8 text-center">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-zinc-100 mb-4">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-zinc-500"
+              >
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.35-4.35" />
               </svg>
@@ -110,25 +125,39 @@ export default function Home() {
             <p className="text-sm font-medium text-zinc-700">Start searching</p>
             <p className="text-xs text-zinc-400 mt-1">
               Enter a chassis number like{" "}
-              <code className="font-mono bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">435123</code>{" "}
+              <code className="font-mono bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">
+                435123
+              </code>{" "}
               or a part name like{" "}
-              <code className="font-mono bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">Part 3</code>
+              <code className="font-mono bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">
+                Part 3
+              </code>
             </p>
           </div>
         )}
 
         {/* No Results */}
-        {!isSearching && hasSearched && results.length === 0 && query.trim() && (
-          <div className="text-center mt-4">
-            <p className="text-sm text-zinc-500">No parts found. Try a different search term.</p>
-          </div>
-        )}
+        {!isSearching &&
+          hasSearched &&
+          results.length === 0 &&
+          query.trim() && (
+            <div className="text-center mt-4">
+              <p className="text-sm text-zinc-500">
+                No parts found. Try a different search term.
+              </p>
+            </div>
+          )}
 
         {/* Results */}
         {!isSearching && results.length > 0 && (
           <div className="flex flex-col gap-4">
             {results.map((entry) => (
-              <ResultCard key={entry.id} entry={entry} highlight={query.trim()} />
+              <ResultCard
+                key={entry.id}
+                entry={entry}
+                highlight={query.trim()}
+                onUpdate={handleUpdate}
+              />
             ))}
           </div>
         )}
